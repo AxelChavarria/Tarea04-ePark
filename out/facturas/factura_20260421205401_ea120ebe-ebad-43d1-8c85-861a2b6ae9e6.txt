@@ -1,0 +1,27 @@
+FACTURA EPARK
+Fecha: 2026-04-21 20:54:01
+----------------------------------------
+Cliente: Jeffry
+Cedula: 6-0470-0374
+Correo: jefaraya@estudiantec.cr
+Registro usuario: 2026-04-21 20:17:06
+----------------------------------------
+Vehiculo: CARRO
+Placa/ID: ABC555
+Parquimetro: 0001
+Tiempo reservado (min): 180
+Tarifa base por hora: CRC 1200.00
+Factor de vehiculo: 1.00
+Monto estimado: CRC 3600.00
+Monto final cobrado: CRC 3600.00
+----------------------------------------
+Tarjeta: DEBITO **** **** **** 0321
+Titular: Jeffry
+Estado pago: APROBADO
+ID pago: 6e782476-f51b-4817-af4a-39258731cc4a
+Referencia: CBR-DB2DFF6A
+Fecha pago: 2026-04-21 20:54:01
+----------------------------------------
+ID estadia: ea120ebe-ebad-43d1-8c85-861a2b6ae9e6
+Vence: 2026-04-21 23:54:01
+Mensaje del sistema: Reserva y pago aprobados

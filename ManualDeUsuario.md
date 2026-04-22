@@ -1,273 +1,171 @@
-# Manual de Usuario - ePark (Plantilla)
+# Manual de Usuario - ePark
 
 ## 1. Proposito
 
-Este manual explica como ejecutar la plantilla base y como validar de forma simple los tres escenarios de usuario solicitados.
+Esta guia explica como ejecutar ePark por terminal, registrar o iniciar sesion y completar una reserva con factura.
 
 ## 2. Requisitos
 
-1. Java JDK 17 o superior instalado.
-2. VS Code con Extension Pack for Java o IDE equivalente.
+- Java JDK 17 o superior.
+- java y javac disponibles en PATH.
+- Acceso a la carpeta del proyecto.
 
-## 3. Preparacion inicial
+## 3. Archivo de usuarios
 
-1. Abrir una terminal en tu sistema operativo.
-2. Validar que Java esta correctamente instalado:
+Archivo unico:
 
-```bash
-java -version
-javac -version
+- out/usuarios/usuarios.txt
+
+Formato por usuario:
+
+```text
+ID_USUARIO=USR-604700374
+NOMBRE=Jeffry
+CEDULA=6-0470-0374
+CORREO=jefaraya@estudiantec.cr
+CONTRASENA=123456
+FECHA_REGISTRO=2026-04-21 20:17:06
+Vehiculos: [Carro: {ABC123; DEF456}; Motocicletas: {No hay}; Scooters: {SCO123}]
 ```
 
-Si alguno falla, instala JDK 17+ con las instrucciones de la seccion 4 segun tu entorno.
+Reglas:
 
-## 4. Ejecucion paso a paso por sistema operativo
+- Cada usuario ocupa un bloque.
+- Cada bloque se separa por una linea en blanco.
+- Si una categoria no tiene placas, usar No hay.
 
-### 4.1 Linux Ubuntu o Debian (nativo)
+## 4. Como ejecutar segun sistema operativo
 
-#### Paso 1 (Ubuntu/Debian): Instalar Java JDK
-
-```bash
-sudo apt update
-sudo apt install -y openjdk-17-jdk
-```
-
-#### Paso 2 (Ubuntu/Debian): Verificar Java
-
-```bash
-java -version
-javac -version
-```
-
-#### Paso 3 (Ubuntu/Debian): Ir a la carpeta del proyecto
-
-```bash
-cd /ruta/a/Tarea04-ePark
-```
-
-#### Paso 4 (Ubuntu/Debian): Compilar
-
-```bash
-mkdir -p out
-find src/main/java -name "*.java" > sources.txt
-javac -d out @sources.txt
-```
-
-#### Paso 5 (Ubuntu/Debian): Ejecutar
-
-```bash
-java -cp out com.epark.app.Main
-```
-
-### 4.2 Linux Arch (nativo)
-
-#### Paso 1 (Arch): Instalar Java JDK
-
-```bash
-sudo pacman -Syu
-sudo pacman -S --needed jdk17-openjdk
-```
-
-#### Paso 2 (Arch): Verificar Java
-
-```bash
-java -version
-javac -version
-```
-
-#### Paso 3 (Arch): Ir al proyecto
-
-```bash
-cd /ruta/a/Tarea04-ePark
-```
-
-#### Paso 4 (Arch): Compilar y ejecutar
-
-```bash
-mkdir -p out
-find src/main/java -name "*.java" > sources.txt
-javac -d out @sources.txt
-java -cp out com.epark.app.Main
-```
-
-### 4.3 Linux por WSL (Ubuntu, Debian o Arch)
-
-#### Paso 1 (WSL): Instalar WSL (solo una vez, en Windows 11)
-
-Abrir PowerShell como administrador:
-
-```powershell
-wsl --install
-```
-
-Reiniciar el equipo cuando termine.
-
-#### Paso 2 (WSL): Instalar distribucion Linux
-
-Listar distribuciones disponibles:
-
-```powershell
-wsl --list --online
-```
-
-Instalar una distribucion (ejemplo):
-
-```powershell
-wsl --install -d Ubuntu
-```
-
-o
-
-```powershell
-wsl --install -d Debian
-```
-
-Para Arch, usar el nombre exacto mostrado por `wsl --list --online`.
-
-#### Paso 3 (WSL): Entrar a tu distro e instalar Java
-
-Aplicar las instrucciones de Ubuntu/Debian (seccion 4.1) o Arch (seccion 4.2).
-
-#### Paso 4 (WSL): Ir al proyecto desde WSL
-
-Si el proyecto esta en el disco C de Windows:
-
-```bash
-cd /mnt/c/TareasReque/Tarea04/Tarea04-ePark
-```
-
-#### Paso 5 (WSL): Compilar y ejecutar
-
-```bash
-mkdir -p out
-find src/main/java -name "*.java" > sources.txt
-javac -d out @sources.txt
-java -cp out com.epark.app.Main
-```
-
-### 4.4 Windows 11 (PowerShell)
-
-#### Paso 1 (Windows 11): Instalar Java JDK
-
-```powershell
-winget install -e --id Microsoft.OpenJDK.17
-```
-
-Si ese paquete no aparece:
-
-```powershell
-winget install -e --id EclipseAdoptium.Temurin.17.JDK
-```
-
-#### Paso 2 (Windows 11): Cerrar y abrir PowerShell, luego verificar
-
-```powershell
-java -version
-javac -version
-```
-
-#### Paso 3 (Windows 11): Ir al proyecto
+### 4.1 Windows 11 (PowerShell)
 
 ```powershell
 cd C:\TareasReque\Tarea04\Tarea04-ePark
-```
-
-#### Paso 4 (Windows 11): Compilar
-
-```powershell
 New-Item -ItemType Directory -Force out | Out-Null
 $fuentes = Get-ChildItem -Recurse -Path src/main/java -Filter *.java | ForEach-Object { $_.FullName }
 javac -d out $fuentes
+java -cp out com.epark.app.Main
 ```
 
-#### Paso 5 (Windows 11): Ejecutar
+### 4.2 WSL (Ubuntu/Debian sobre Windows)
 
-```powershell
+```bash
+cd /mnt/c/TareasReque/Tarea04/Tarea04-ePark
+mkdir -p out
+find src/main/java -name "*.java" > sources.txt
+javac -d out @sources.txt
+java -cp out com.epark.app.Main
+```
+
+### 4.3 Ubuntu (nativo)
+
+```bash
+cd /ruta/a/Tarea04-ePark
+mkdir -p out
+find src/main/java -name "*.java" > sources.txt
+javac -d out @sources.txt
+java -cp out com.epark.app.Main
+```
+
+### 4.4 Debian (nativo)
+
+```bash
+cd /ruta/a/Tarea04-ePark
+mkdir -p out
+find src/main/java -name "*.java" > sources.txt
+javac -d out @sources.txt
 java -cp out com.epark.app.Main
 ```
 
 ### 4.5 macOS
 
-#### Paso 1 (macOS): Instalar Homebrew (si no lo tienes)
-
-```bash
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-```
-
-#### Paso 2 (macOS): Instalar Java JDK
-
-```bash
-brew update
-brew install openjdk@17
-echo 'export PATH="$(brew --prefix openjdk@17)/bin:$PATH"' >> ~/.zshrc
-source ~/.zshrc
-```
-
-#### Paso 3 (macOS): Verificar Java
-
-```bash
-java -version
-javac -version
-```
-
-#### Paso 4 (macOS): Ir al proyecto
-
 ```bash
 cd /ruta/a/Tarea04-ePark
-```
-
-#### Paso 5 (macOS): Compilar y ejecutar
-
-```bash
 mkdir -p out
 find src/main/java -name "*.java" > sources.txt
 javac -d out @sources.txt
 java -cp out com.epark.app.Main
 ```
 
-### 4.6 Opcion IDE (VS Code o IntelliJ)
+## 5. Menu inicial
 
-1. Abrir la carpeta del proyecto.
-2. Configurar JDK 17+ en el IDE.
-3. Ejecutar la clase principal `com.epark.app.Main`.
-4. Revisar salida de consola.
+Al abrir el programa:
 
-## 5. Que valida esta demo
+- Opcion 1: Registrar usuario.
+- Opcion 2: Iniciar sesion.
 
-1. HU 7.1:
-Se crea una reserva de parqueo y se intenta un cobro simulado.
+## 6. Registrar usuario
 
-2. HU 7.2:
-Se consulta si hay estadias proximas a vencer para enviar aviso.
+El sistema solicita:
 
-3. HU 7.3:
-Se listan pagos de una tarjeta para un usuario en la fecha actual.
+- Nombre de usuario.
+- Cedula (x-xxxx-xxxx).
+- Correo.
+- Contrasena.
 
-## 6. Como usarla en equipo de 3 personas
+Validaciones en registro:
 
-1. Persona 1 corre el flujo de estacionamiento y valida estados.
-2. Persona 2 prueba envio de notificaciones y mensajes.
-3. Persona 3 valida las consultas de pagos y reportes.
+- Cedula no repetida.
+- Correo no repetido.
 
-Todos deben integrar semanalmente para evitar divergencias de modelo.
+Si pasa validaciones, guarda el usuario e inicia sesion automaticamente.
 
-## 7. Resultado esperado en consola
+## 7. Iniciar sesion
 
-Se deben ver lineas similares a:
+El sistema solicita:
 
-1. Mensaje de resultado de reserva.
-2. ID de estadia y monto.
-3. Cantidad de notificaciones enviadas.
-4. Cantidad de pagos encontrados.
+- Correo.
+- Nombre de usuario.
+- Contrasena.
 
-## 8. Limitaciones actuales de la plantilla
+Validaciones de login:
 
-1. Persistencia solo en memoria.
-2. Cobro simulado sin pasarela real.
-3. Notificaciones por consola.
+- El correo existe en usuarios.txt.
+- El nombre coincide con ese correo.
+- La contrasena coincide con ese correo.
 
-## 9. Proximos pasos recomendados
+## 8. Vehiculos y placas
 
-1. Agregar pruebas unitarias por caso de uso.
-2. Reemplazar stubs por adaptadores reales.
-3. Crear diagrama UML final con los objetos implementados.
+Despues de acceder:
+
+- selecciona tipo de vehiculo (Carro, Motocicleta o Scooter Electrico),
+- ingresa placa.
+
+Reglas:
+
+- Las placas no se repiten.
+- Si la placa ya pertenece a otro usuario, se rechaza.
+- La placa se agrega a la seccion Vehiculos del usuario.
+
+## 9. Reserva, cobro y factura
+
+Luego se solicita:
+
+- numero de parquimetro,
+- minutos de reserva,
+- tarjeta de pago.
+
+Se calcula monto y se genera factura.
+
+Formula de cobro:
+
+```text
+monto = (tarifaHoraBase / 60) x minutos x factorVehiculo
+```
+
+Factores:
+
+- Carro: 1.00.
+- Motocicleta: 0.75.
+- Scooter Electrico: 0.60.
+
+## 10. Archivos usados y generados
+
+- Usuarios: out/usuarios/usuarios.txt.
+- Factura: out/facturas/factura_{fechaHora}_{idEstadia}.txt.
+
+## 11. Errores comunes
+
+- Cedula repetida: usar una cedula nueva.
+- Correo repetido: usar otro correo.
+- Login fallido: verificar correo, nombre y contrasena.
+- Placa repetida: ingresar una placa no usada por otro usuario.

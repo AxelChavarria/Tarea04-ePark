@@ -1,0 +1,8 @@
+ID_USUARIO=USR-604700374
+NOMBRE=Jeffry
+CEDULA=6-0470-0374
+CORREO=jefaraya@estudiantec.cr
+CONTRASENA=123456
+FECHA_REGISTRO=2026-04-21 20:17:06
+Vehiculos: [Carro: {ABC555}; Motocicletas: {No hay}; Scooters: {No hay}]
+

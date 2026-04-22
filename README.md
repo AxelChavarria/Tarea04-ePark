@@ -1,188 +1,121 @@
 # Tarea 4 - Modelado de Objetos ePark
 
-Este repositorio contiene una base inicial para trabajar la Tarea 4 del curso, enfocada en modelado orientado a objetos y mensajeria entre componentes del ecosistema urbano.
+Este repositorio implementa una plantilla de ePark en Java orientada a modelado de objetos y mensajeria entre capas.
 
-La base esta hecha para iniciar rapido con codigo exclusivamente en Java en la capa de implementacion.
+La ejecucion principal es interactiva por terminal y comienza preguntando si deseas registrar un usuario o iniciar sesion.
 
 ## Objetivo del repositorio
 
-1. Dejar una estructura limpia para modelar responsabilidades por clase.
-2. Cubrir como plantilla las HU del punto 7:
-3. HU 7.1 Estacionar un vehiculo en la calle.
-4. HU 7.2 Notificar al usuario cuando faltan 5 minutos para vencer.
-5. HU 7.3 Consultar pagos por tarjeta en un dia para un cliente especifico.
+- Mantener una estructura limpia por capas.
+- Cubrir los flujos base del punto 7 del curso.
+- Ejecutar login, reserva, cobro y factura en consola.
 
-## Estructura creada
+## Flujo interactivo
 
-- src/main/java/com/epark/domain/enums
-- src/main/java/com/epark/domain/model
-- src/main/java/com/epark/domain/ports
-- src/main/java/com/epark/application/dto
-- src/main/java/com/epark/application/usecase
-- src/main/java/com/epark/infrastructure/stub
-- src/main/java/com/epark/app
+- Menu inicial:
+- Registrar usuario.
+- Iniciar sesion.
 
-## Como ejecutar la plantilla
+- Registro:
+- solicita nombre, cedula, correo y contrasena.
+- valida cedula unica.
+- valida correo unico.
+- guarda usuario y abre sesion automaticamente.
 
-### 1. Requisitos comunes para cualquier sistema operativo
+- Inicio de sesion:
+- solicita correo, nombre y contrasena.
+- valida que existan y coincidan en usuarios.txt.
 
-1. Instalar Java JDK 17 o superior.
-2. Abrir una terminal y validar que Java quedo instalado:
+- Reserva:
+- solicita tipo de vehiculo y placa.
+- valida no repeticion de placas.
+- solicita parquimetro, tiempo y tarjeta.
+- calcula cobro y genera factura.
 
-```bash
-java -version
-javac -version
+## Archivo unico de usuarios
+
+Ruta:
+
+- out/usuarios/usuarios.txt
+
+Formato por usuario:
+
+```text
+ID_USUARIO=USR-604700374
+NOMBRE=Jeffry
+CEDULA=6-0470-0374
+CORREO=jefaraya@estudiantec.cr
+CONTRASENA=123456
+FECHA_REGISTRO=2026-04-21 20:17:06
+Vehiculos: [Carro: {ABC123; DEF456}; Motocicletas: {No hay}; Scooters: {SCO123}]
 ```
 
-- Ubicarse en la carpeta raiz del proyecto.
-- Seguir la seccion de tu sistema operativo.
+Reglas de estructura:
 
-### 2. Linux Ubuntu o Debian (nativo o por WSL)
+- Cada usuario es un bloque.
+- Los usuarios se separan por una linea en blanco.
 
-#### 2.1 Instalar Java JDK
+## Seccion Vehiculos
 
-```bash
-sudo apt update
-sudo apt install -y openjdk-17-jdk
+Formato:
+
+```text
+Vehiculos: [Carro: {<placa>; <placa>; ...}; Motocicletas: {No hay}; Scooters: {<placa>; <placa>; ...}]
 ```
 
-#### 2.2 Verificar instalacion
+Reglas:
 
-```bash
-java -version
-javac -version
+- Si no hay placas en una categoria, usar No hay.
+- Las placas no se deben repetir.
+
+## Validaciones importantes
+
+- Cedula unica en registro.
+- Correo unico en registro.
+- Correo, nombre y contrasena deben coincidir en login.
+- Placa no repetida entre usuarios.
+- Parquimetro de 4 digitos.
+- Tarjeta con 13 a 19 digitos.
+
+## Formula de cobro
+
+```text
+monto = (tarifaHoraBase / 60) x minutos x factorVehiculo
 ```
 
-#### 2.3 Entrar al proyecto
+Tarifa base demo:
 
-Si estas en Linux nativo:
+- CRC 1200.00 por hora.
 
-```bash
-cd /ruta/a/Tarea04-ePark
-```
+Factores demo:
 
-Si estas en WSL y el proyecto esta en disco de Windows:
+- Carro: 1.00.
+- Motocicleta: 0.75.
+- Scooter Electrico: 0.60.
 
-```bash
-cd /mnt/c/TareasReque/Tarea04/Tarea04-ePark
-```
+## Ejecucion por sistema operativo
 
-#### 2.4 Compilar y ejecutar
-
-```bash
-mkdir -p out
-find src/main/java -name "*.java" > sources.txt
-javac -d out @sources.txt
-java -cp out com.epark.app.Main
-```
-
-### 3. Linux Arch (nativo o por WSL)
-
-#### 3.1 Instalar Java JDK
-
-```bash
-sudo pacman -Syu
-sudo pacman -S --needed jdk17-openjdk
-```
-
-#### 3.2 Verificar instalacion
-
-```bash
-java -version
-javac -version
-```
-
-#### 3.3 Entrar al proyecto
-
-Nativo:
-
-```bash
-cd /ruta/a/Tarea04-ePark
-```
-
-WSL con proyecto en disco Windows:
-
-```bash
-cd /mnt/c/TareasReque/Tarea04/Tarea04-ePark
-```
-
-#### 3.4 Compilar y ejecutar
-
-```bash
-mkdir -p out
-find src/main/java -name "*.java" > sources.txt
-javac -d out @sources.txt
-java -cp out com.epark.app.Main
-```
-
-### 4. Windows 11 (PowerShell)
-
-#### 4.1 Instalar Java JDK (una sola vez)
-
-Opcion 1:
-
-```powershell
-winget install -e --id Microsoft.OpenJDK.17
-```
-
-Opcion 2 (si la opcion 1 no aparece en tu catalogo):
-
-```powershell
-winget install -e --id EclipseAdoptium.Temurin.17.JDK
-```
-
-#### 4.2 Cerrar y abrir PowerShell de nuevo, luego validar
-
-```powershell
-java -version
-javac -version
-```
-
-#### 4.3 Ir al proyecto
+### Windows 11 (PowerShell)
 
 ```powershell
 cd C:\TareasReque\Tarea04\Tarea04-ePark
-```
-
-#### 4.4 Compilar y ejecutar
-
-```powershell
 New-Item -ItemType Directory -Force out | Out-Null
 $fuentes = Get-ChildItem -Recurse -Path src/main/java -Filter *.java | ForEach-Object { $_.FullName }
 javac -d out $fuentes
 java -cp out com.epark.app.Main
 ```
 
-### 5. macOS (Intel y Apple Silicon)
-
-#### 5.1 Instalar Homebrew (si aun no lo tienes)
+### WSL (Ubuntu o Debian sobre Windows)
 
 ```bash
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+cd /mnt/c/TareasReque/Tarea04/Tarea04-ePark
+mkdir -p out
+find src/main/java -name "*.java" > sources.txt
+javac -d out @sources.txt
+java -cp out com.epark.app.Main
 ```
 
-#### 5.2 Instalar Java JDK
-
-```bash
-brew update
-brew install openjdk@17
-```
-
-#### 5.3 Agregar Java al PATH de tu shell
-
-```bash
-echo 'export PATH="$(brew --prefix openjdk@17)/bin:$PATH"' >> ~/.zshrc
-source ~/.zshrc
-```
-
-#### 5.4 Verificar instalacion
-
-```bash
-java -version
-javac -version
-```
-
-#### 5.5 Compilar y ejecutar
+### Ubuntu (nativo)
 
 ```bash
 cd /ruta/a/Tarea04-ePark
@@ -192,90 +125,28 @@ javac -d out @sources.txt
 java -cp out com.epark.app.Main
 ```
 
-### 6. Instalacion de WSL en Windows 11 (si deseas correr Linux)
+### Debian (nativo)
 
-Paso 1. Abrir PowerShell como administrador.
-
-Paso 2. Instalar WSL:
-
-```powershell
-wsl --install
+```bash
+cd /ruta/a/Tarea04-ePark
+mkdir -p out
+find src/main/java -name "*.java" > sources.txt
+javac -d out @sources.txt
+java -cp out com.epark.app.Main
 ```
 
-Paso 3. Reiniciar el equipo cuando se solicite.
+### macOS
 
-Paso 4. Ver distribuciones disponibles:
-
-```powershell
-wsl --list --online
+```bash
+cd /ruta/a/Tarea04-ePark
+mkdir -p out
+find src/main/java -name "*.java" > sources.txt
+javac -d out @sources.txt
+java -cp out com.epark.app.Main
 ```
 
-Paso 5. Instalar la distro que vayas a usar (ejemplo Ubuntu o Debian):
+## Documentos
 
-```powershell
-wsl --install -d Ubuntu
-```
-
-o
-
-```powershell
-wsl --install -d Debian
-```
-
-Para Arch, usar el nombre exacto que aparezca en el listado de `wsl --list --online`.
-
-Paso 6. Abrir la distro, crear usuario Linux y luego seguir pasos de las secciones 2 o 3 segun corresponda.
-
-### 7. Opcion IDE (VS Code o IntelliJ)
-
-1. Abrir el proyecto en el IDE.
-2. Confirmar JDK 17+ configurado en el IDE.
-3. Ejecutar la clase `com.epark.app.Main`.
-4. Verificar salida en consola con el resultado de reserva y pagos.
-
-## Reparto recomendado para 3 personas
-
-### Persona 1 - Dominio y HU 7.1
-
-Responsabilidad principal:
-Modelar y fortalecer el flujo de estacionamiento.
-
-Entregables:
-
-1. Validaciones de negocio para Parquimetro, ZonaParqueo y Estadia.
-2. Ajustes de tarifa por tipo de vehiculo.
-3. Casos de prueba de dominio para estacionamiento.
-
-### Persona 2 - Notificaciones y HU 7.2
-
-Responsabilidad principal:
-Implementar y estabilizar las alertas de vencimiento.
-
-Entregables:
-
-1. Estrategia para evitar notificaciones duplicadas.
-2. Integracion de canales APP, SMS o EMAIL por configuracion.
-3. Casos de prueba del use case NotificarProximoVencimientoUseCase.
-
-### Persona 3 - Pagos, reportes y HU 7.3
-
-Responsabilidad principal:
-Completar consulta de pagos y preparar salida para auditoria.
-
-Entregables:
-
-1. Mejora de filtros por fecha, cliente y estado de pago.
-2. Formato de reporte reutilizable para exportacion.
-3. Casos de prueba del use case ConsultarPagosPorTarjetaUseCase.
-
-## Flujo de trabajo sugerido
-
-1. Cada persona trabaja en su propia rama.
-2. Merge semanal hacia una rama de integracion.
-3. Demo conjunta al final de cada iteracion con las 3 HU.
-
-## Documentos del proyecto
-
-- README.md: resumen general y arranque rapido.
-- Documentacion.md: detalle tecnico y decisiones de modelado.
-- ManualDeUsuario.md: guia practica para usar y probar la plantilla.
+- README.md
+- Documentacion.md
+- ManualDeUsuario.md
