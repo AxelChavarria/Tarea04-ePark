@@ -307,7 +307,7 @@ ServicioNotificacionConsola ..|> ServicioNotificacion
 - `application` coordina casos de uso y traduce entradas/salidas con DTO.
 - `domain` concentra reglas de negocio y estados.
 - `infrastructure` materializa puertos mediante stubs reemplazables.
-- `app.Main` actua como adaptador de interfaz de consola y persistencia TXT.
+- `app.Main` actua como adaptador de entrada por consola y persistencia TXT.
 
 ### 4.2 Inversion de dependencias
 

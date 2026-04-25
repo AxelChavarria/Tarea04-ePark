@@ -152,7 +152,7 @@ Se priorizan:
   - Orquestar reserva, cobro y persistencia de resultado.
   - Validar consistencia entre DTO y entidades recibidas.
   - Resolver caminos de exito y rechazo con acciones compensatorias.
-  - Devolver `ResultadoReserva` para capa de presentacion.
+  - Devolver `ResultadoReserva` para salida por consola en `Main`.
 - Colaboradores:
   - `SolicitudEstacionamiento` y `ResultadoReserva`.
   - `RepositorioEstadias`, `RepositorioPagos`.
@@ -169,7 +169,7 @@ Se priorizan:
 - Responsabilidades:
   - Resolver consulta de pagos por tarjeta, fecha y usuario.
   - Transformar entidad `Pago` a DTO de lectura `ResumenPago`.
-  - Entregar coleccion lista para presentacion.
+  - Entregar coleccion lista para consumo en consola.
 - Colaboradores:
   - `RepositorioPagos`.
   - `ConsultaPagosTarjeta` (entrada).
