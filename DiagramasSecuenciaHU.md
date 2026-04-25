@@ -61,8 +61,8 @@ else Cupo reservado
   PM->>Z: calcularMontoEstimado(minutos, factorVehiculo)
   Z-->>PM: montoEstimado
   PM-->>UC: Estadia BORRADOR
-
   UC->>RE: guardar(estadia)
+
   UC->>SC: cobrar(idUsuario, idTarjeta, monto, descripcion)
   SC-->>UC: ResultadoCobro
 
@@ -79,8 +79,6 @@ else Cupo reservado
     UC->>UC: pago.rechazar(referencia, motivo)
     UC->>UC: estadia.cancelar()
     UC->>PM: liberarCupo()
-    UC->>RP: guardar(pago)
-    UC->>RE: guardar(estadia)
     UC-->>UI: ResultadoReserva.rechazada(...)
     UI-->>U: Muestra rechazo y motivo
   end
