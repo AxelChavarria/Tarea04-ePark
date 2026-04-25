@@ -31,7 +31,7 @@ Permitir que un usuario con sesion activa reserve parqueo, procese el cobro y ob
 sequenceDiagram
 autonumber
 actor U as Usuario
-participant UI as Main (consola)
+participant M as Main (consola)
 participant UC as EstacionarVehiculoUseCase
 participant R as RelojSistema
 participant PM as Parquimetro
@@ -40,10 +40,10 @@ participant RE as RepositorioEstadias
 participant SC as ServicioCobro
 participant RP as RepositorioPagos
 
-U->>UI: Ingresa tipo, placa, parquimetro, minutos y tarjeta
-UI->>UI: Construye Usuario, Vehiculo, TarjetaCredito
-UI->>UI: Construye SolicitudEstacionamiento
-UI->>UC: ejecutar(solicitud, usuario, vehiculo, parquimetro)
+U->>M: Ingresa tipo, placa, parquimetro, minutos y tarjeta
+M->>M: Construye Usuario, Vehiculo, TarjetaCredito
+M->>M: Construye SolicitudEstacionamiento
+M->>UC: ejecutar(solicitud, usuario, vehiculo, parquimetro)
 
 UC->>UC: validarConsistencia(...)
 UC->>R: ahora()
@@ -55,8 +55,8 @@ Z-->>PM: true/false
 
 alt Sin cupo disponible
   PM-->>UC: IllegalStateException
-  UC-->>UI: Error de reserva
-  UI-->>U: Notifica falta de cupo
+  UC-->>M: Error de reserva
+  M-->>U: Notifica falta de cupo
 else Cupo reservado
   PM->>Z: calcularMontoEstimado(minutos, factorVehiculo)
   Z-->>PM: montoEstimado
@@ -73,16 +73,16 @@ else Cupo reservado
     UC->>UC: estadia.activar()
     UC->>RP: guardar(pago)
     UC->>RE: guardar(estadia)
-    UC-->>UI: ResultadoReserva.aprobada(...)
-    UI-->>U: Muestra confirmacion e ID de estadia
+    UC-->>M: ResultadoReserva.aprobada(...)
+    M-->>U: Muestra confirmacion e ID de estadia
   else Cobro rechazado
     UC->>UC: pago.rechazar(referencia, motivo)
     UC->>UC: estadia.cancelar()
     UC->>PM: liberarCupo()
     UC->>RP: guardar(pago)
     UC->>RE: guardar(estadia)
-    UC-->>UI: ResultadoReserva.rechazada(...)
-    UI-->>U: Muestra rechazo y motivo
+    UC-->>M: ResultadoReserva.rechazada(...)
+    M-->>U: Muestra rechazo y motivo
   end
 end
 ```
@@ -176,13 +176,13 @@ Listar pagos de un usuario para una tarjeta especifica en una fecha dada, devolv
 sequenceDiagram
 autonumber
 actor U as Usuario
-participant UI as Main (consola)
+participant M as Main (consola)
 participant UCP as ConsultarPagosPorTarjetaUseCase
 participant RP as RepositorioPagos
 
-U->>UI: Solicita ver pagos del dia por tarjeta
-UI->>UI: Construye ConsultaPagosTarjeta
-UI->>UCP: ejecutar(consulta)
+U->>M: Solicita ver pagos del dia por tarjeta
+M->>M: Construye ConsultaPagosTarjeta
+M->>UCP: ejecutar(consulta)
 
 UCP->>UCP: Validar consulta != null
 UCP->>RP: buscarPorTarjetaYFecha(idTarjeta, fecha, idUsuario)
@@ -192,15 +192,15 @@ loop Por cada Pago
   UCP->>UCP: toResumen(pago)
 end
 
-UCP-->>UI: List<ResumenPago>
-UI->>UI: Selecciona pago mas reciente
-UI-->>U: Muestra lista y resumen
+UCP-->>M: List<ResumenPago>
+M->>M: Selecciona pago mas reciente
+M-->>U: Muestra lista y resumen
 ```
 
 ### 4.4 Postcondiciones
 
 - El resultado retorna una coleccion de `ResumenPago` desacoplada de la entidad `Pago`.
-- La capa de presentacion puede ordenar y seleccionar el pago mas reciente sin alterar dominio.
+- La capa `app.Main` puede ordenar y seleccionar el pago mas reciente sin alterar dominio.
 
 ### 4.5 Riesgos y controles
 
